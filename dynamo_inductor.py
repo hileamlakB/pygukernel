@@ -15,23 +15,46 @@
 
 
 # -*- coding: utf-8 -*-
+import os
+# change working directory
+try:
+    os.mkdir("results")
+except FileExistsError:
+    pass
+
+os.chdir("results")
+if not os.path.exists("index.txt"):
+    with open("index.txt", "w") as f:
+        f.write("0")
+
+
+with open("index.txt", "r+") as f:
+    current_index = int(f.read())
+    f.seek(0)
+    f.write(str(current_index + 1))
+os.mkdir(f"result_{current_index}")
+os.chdir(f"result_{current_index}")
+
+
 import torch
 from torch import nn
 import torch._inductor.config as config
 import torch._dynamo as dynamo
+from torch._inductor.benchmarking  import benchmark
 config.debug = True
 
 
-def test_model(model, *args):
+def test_model(model, inputs):
     # compile model using inductor
     compiled_model = torch.compile(model)
     # run model
-    y_pred = compiled_model(*args)
+    for in_ in inputs:
+        y_pred = compiled_model(in_)
     # optimize on prediction
-    try:
-        y_pred.sum().backward()
-    except RuntimeError as e:
-        pass
+    # try:
+    #     y_pred.sum().backward()
+    # except RuntimeError as e:
+    #     print("can't do backward")
 
 # models
 relu = torch.nn.Sequential(
@@ -43,16 +66,21 @@ linear = torch.nn.Sequential(
     torch.nn.Linear(1, 1)
 ).cuda()
     
-test_model(relu, torch.randn(100, 3).cuda())
+# test_model(relu, inputs = [torch.randn(100, 3).cuda(), torch.randn(200, 3).cuda()])
 
-# @dynamo.optimize('inductor')
-# def multiple_relu(a, b):
-#     return torch.matmul(a, b)
 
-# x = torch.randn(100, 3).cuda()
-# y = torch.randn(3, 10).cuda()
-# multiple_relu(x, y)
-    
+
+
+@dynamo.optimize('inductor')
+def multiple_relu(a, b):
+    return torch.matmul(a, b)
+
+x = torch.randn(100, 3).cuda()
+y = torch.randn(3, 10).cuda()
+multiple_relu(x, y)
+
+
+benchmark.dump()
 
 
 

@@ -1,0 +1,2 @@
+Node Type,Node Name,Inputs,Output,Function,Compute_time,Reads,Writes,Original Code,Triton Code
+ExternKernel,buf0,"torch.float32, [100, 3], [3, 1];torch.float32, [3, 10], [10, 1];","torch.float32, [100, 10], [10, 1]",{mm},,,0,original_code_0_1679635375.0746837.txt,triton_code_0_1679635375.0746837.py

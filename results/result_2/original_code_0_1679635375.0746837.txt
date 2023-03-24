@@ -1,0 +1,10 @@
+model:GraphModule()
+
+
+
+def forward(self, a : torch.Tensor, b : torch.Tensor):
+    matmul = torch.matmul(a, b);  a = b = None
+    return (matmul,)
+    
+# To see more debug info, please use `graph_module.print_readable()`
+func:<function compile_fx_inner at 0x7fcb543e13f0>

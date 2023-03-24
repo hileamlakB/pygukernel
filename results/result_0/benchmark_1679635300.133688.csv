@@ -1,0 +1,7 @@
+Node Type,Node Name,Inputs,Output,Function,Compute_time,Reads,Writes,Original Code,Triton Code
+ExternKernel,buf0,"torch.float32, [10], [1];torch.float32, [100, 3], [3, 1];torch.float32, [3, 10], [1, 3];","torch.float32, [100, 10], [10, 1]",{addmm},,,0,original_code_0_1679635300.133688.txt,triton_code_0_1679635300.133688.py
+ComputedBuffer,buf1,,"torch.float32, [100, 10], [10, 1]",{relu},"(1000,);","(1000,);",0,original_code_0_1679635300.133688.txt,triton_code_0_1679635300.133688.py
+ComputedBuffer,buf2,,"torch.bool, [100, 10], [10, 1]",{le},"(1000,);","(1000,);",0,original_code_0_1679635300.133688.txt,triton_code_0_1679635300.133688.py
+ExternKernel,buf0,"torch.float32, [10], [1];torch.float32, [200, 3], [3, 1];torch.float32, [3, 10], [1, 3];","torch.float32, [200, 10], [10, 1]",{addmm},,,0,original_code_1_1679635300.133688.txt,triton_code_1_1679635300.133688.py
+ComputedBuffer,buf1,,"torch.float32, [200, 10], [10, 1]",{relu},"(2000,);","(2000,);",0,original_code_1_1679635300.133688.txt,triton_code_1_1679635300.133688.py
+ComputedBuffer,buf2,,"torch.bool, [200, 10], [10, 1]",{le},"(2000,);","(2000,);",0,original_code_1_1679635300.133688.txt,triton_code_1_1679635300.133688.py
